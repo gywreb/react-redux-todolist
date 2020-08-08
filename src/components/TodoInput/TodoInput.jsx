@@ -38,13 +38,13 @@ const TodoInput = () => {
           onKeyDown={(e) => (e.key === "Enter" ? handleConfirm() : null)}
         />
         <InputGroup.Append>
-          <Button variant="outline-primary" onClick={handleConfirm}>
+          <Button variant="primary" onClick={handleConfirm}>
             {updatingTodo ? "Update" : "Add"}
           </Button>
           <Button
             disabled={updatingTodo ? false : true}
             onClick={() => dispatch({ type: todoUpdateCancel.type })}
-            variant="outline-secondary"
+            variant={updatingTodo ? "secondary" : "outline-secondary"}
           >
             Cancel Update
           </Button>

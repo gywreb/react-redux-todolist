@@ -13,6 +13,7 @@ const TodoList = () => {
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos.list);
   const loading = useSelector((state) => state.todos.loading);
+  const updatingTodo = useSelector((state) => state.todos.isUpdating);
 
   useEffect(() => {
     dispatch(loadTodos());
@@ -21,13 +22,7 @@ const TodoList = () => {
   if (loading)
     return (
       <div className="d-flex align-item-center justify-content-center mt-4">
-        <Loader
-          type="TailSpin"
-          color="#00BFFF"
-          height={100}
-          width={100}
-          timeout={3000} //3 secs
-        />
+        <Loader type="TailSpin" color="#6c757d" height={100} width={100} />
       </div>
     );
 
@@ -46,9 +41,24 @@ const TodoList = () => {
               </ListGroup.Item>
               <ButtonGroup>
                 <Button
-                  style={{ width: "64px" }}
+                  disabled={
+                    !updatingTodo
+                      ? false
+                      : updatingTodo.id === id
+                      ? true
+                      : false
+                  }
+                  style={{ minWidth: "64px" }}
                   onClick={() => dispatch(completeTodo(id, complete))}
-                  variant={complete ? "warning" : "success"}
+                  variant={
+                    complete
+                      ? "warning"
+                      : !updatingTodo
+                      ? "success"
+                      : updatingTodo.id === id
+                      ? "outline-success"
+                      : "success"
+                  }
                 >
                   {complete ? "Redo " : "Done"}
                 </Button>
@@ -58,11 +68,29 @@ const TodoList = () => {
                   }
                   disabled={complete ? true : false}
                   variant={complete ? "outline-info" : "info"}
+                  style={{ minWidth: "102px" }}
                 >
-                  Update
+                  {!updatingTodo
+                    ? "Update"
+                    : updatingTodo.id === id
+                    ? "Updating..."
+                    : "Update"}
                 </Button>
                 <Button
-                  variant="danger"
+                  disabled={
+                    !updatingTodo
+                      ? false
+                      : updatingTodo.id === id
+                      ? true
+                      : false
+                  }
+                  variant={
+                    !updatingTodo
+                      ? "danger"
+                      : updatingTodo.id === id
+                      ? "outline-danger"
+                      : "danger"
+                  }
                   onClick={() => dispatch(deleteTodo(id))}
                 >
                   Delete
