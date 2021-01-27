@@ -18,7 +18,7 @@ const TodoInput = () => {
   const handleConfirm = () => {
     if (!todo.length) setAlert(true);
     else {
-      if (updatingTodo) dispatch(updateTodo(updatingTodo.id, todo));
+      if (updatingTodo) dispatch(updateTodo(updatingTodo._id, todo));
       else {
         dispatch(addTodo({ description: todo }));
         setTodo("");

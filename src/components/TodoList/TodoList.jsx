@@ -30,8 +30,8 @@ const TodoList = () => {
     <>
       <ListGroup className="mt-4">
         {todos.length ? (
-          todos.map(({ id, description, complete }) => (
-            <ButtonGroup key={id} className="mt-2 mb-2">
+          todos.map(({ _id, description, complete }) => (
+            <ButtonGroup key={_id} className="mt-2 mb-2">
               <ListGroup.Item style={{ flexGrow: "1" }}>
                 <span
                   style={complete ? { textDecoration: "line-through" } : null}
@@ -44,18 +44,18 @@ const TodoList = () => {
                   disabled={
                     !updatingTodo
                       ? false
-                      : updatingTodo.id === id
+                      : updatingTodo._id === _id
                       ? true
                       : false
                   }
                   style={{ minWidth: "64px" }}
-                  onClick={() => dispatch(completeTodo(id, complete))}
+                  onClick={() => dispatch(completeTodo(_id, complete))}
                   variant={
                     complete
                       ? "warning"
                       : !updatingTodo
                       ? "success"
-                      : updatingTodo.id === id
+                      : updatingTodo._id === _id
                       ? "outline-success"
                       : "success"
                   }
@@ -64,7 +64,7 @@ const TodoList = () => {
                 </Button>
                 <Button
                   onClick={() =>
-                    dispatch({ type: todoUpdating.type, payload: id })
+                    dispatch({ type: todoUpdating.type, payload: _id })
                   }
                   disabled={complete ? true : false}
                   variant={complete ? "outline-info" : "info"}
@@ -72,7 +72,7 @@ const TodoList = () => {
                 >
                   {!updatingTodo
                     ? "Update"
-                    : updatingTodo.id === id
+                    : updatingTodo._id === _id
                     ? "Updating..."
                     : "Update"}
                 </Button>
@@ -80,18 +80,18 @@ const TodoList = () => {
                   disabled={
                     !updatingTodo
                       ? false
-                      : updatingTodo.id === id
+                      : updatingTodo._id === _id
                       ? true
                       : false
                   }
                   variant={
                     !updatingTodo
                       ? "danger"
-                      : updatingTodo.id === id
+                      : updatingTodo._id === _id
                       ? "outline-danger"
                       : "danger"
                   }
-                  onClick={() => dispatch(deleteTodo(id))}
+                  onClick={() => dispatch(deleteTodo(_id))}
                 >
                   Delete
                 </Button>

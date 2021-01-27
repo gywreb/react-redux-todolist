@@ -8,16 +8,18 @@ export const api = ({ dispatch }) => (next) => async (action) => {
   next(action);
   try {
     const response = await axios.request({
-      baseURL: "https://gywreb-todo.herokuapp.com/api",
+      baseURL: process.env.REACT_APP_API_BASEURL,
       url,
       method,
       data,
     });
+    console.log(response.data);
     dispatch(actions.apiCallSuccess(response.data));
     if (onSuccess) dispatch({ type: onSuccess, payload: response.data });
   } catch (error) {
-    dispatch(actions.apiCallFailed(error.message));
-    if (onError) dispatch({ type: onError, payload: error.message });
+    dispatch(actions.apiCallFailed(error.response.data.message));
+    if (onError)
+      dispatch({ type: onError, payload: error.response.data.message });
   }
 };
 

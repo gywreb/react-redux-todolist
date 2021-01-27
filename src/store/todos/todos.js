@@ -25,20 +25,26 @@ const slice = createSlice({
       todos.list.push(action.payload);
     },
     todosDeleted: (todos, action) => {
-      todos.list.splice(action.payload, 1);
+      const { deletedTodo } = action.payload;
+      const index = todos.list.findIndex(
+        (oldTodo) => oldTodo._id === deletedTodo._id
+      );
+      todos.list.splice(index, 1);
     },
     todoCompleted: (todos, action) => {
-      const { index, todo } = action.payload;
+      const { todo } = action.payload;
+      const index = todos.list.findIndex((oldTodo) => oldTodo._id === todo._id);
       todos.list[index].complete = todo.complete;
     },
     todoUpdating: (todos, action) => {
       const updatingTodo = todos.list.find(
-        (todo) => todo.id === action.payload
+        (todo) => todo._id === action.payload
       );
       todos.isUpdating = updatingTodo;
     },
     todoUpdated: (todos, action) => {
-      const { index, todo } = action.payload;
+      const { todo } = action.payload;
+      const index = todos.list.findIndex((oldTodo) => oldTodo._id === todo._id);
       todos.list[index].description = todo.description;
       todos.isUpdating = null;
     },
